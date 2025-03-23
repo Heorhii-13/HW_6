@@ -1,7 +1,7 @@
 ﻿using System;
 
-// Завдання 1: Клас "П'єса"
-class Play
+// Завдання 1: Клас "П'єса" з IDisposable
+class Play : IDisposable
 {
     public string Title { get; set; }
     public string Author { get; set; }
@@ -21,9 +21,9 @@ class Play
         Console.WriteLine($"П'єса: {Title}, Автор: {Author}, Жанр: {Genre}, Рік: {Year}");
     }
 
-    ~Play()
+    public void Dispose()
     {
-        Console.WriteLine($"П'єса {Title} знищена");
+        Console.WriteLine($"П'єса {Title} завершила своє існування");
     }
 }
 
@@ -31,8 +31,10 @@ class Program
 {
     static void Main()
     {
-        // Тестування класу "П'єса"
-        Play play = new Play("Гамлет", "Вільям Шекспір", "Трагедія", 1601);
-        play.ShowInfo();
+        // Тестування класу "П'єса" з IDisposable
+        using (Play play = new Play("Гамлет", "Вільям Шекспір", "Трагедія", 1601))
+        {
+            play.ShowInfo();
+        } // Тут автоматично викликається Dispose
     }
 }
